@@ -1,8 +1,6 @@
 import socket
 import sys
 import getopt
-import threading
-import subprocess
 import time
 import random
 
