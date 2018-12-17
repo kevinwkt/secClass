@@ -1,57 +1,45 @@
+#!/bin/python3
+
+# Accepted alphabet is [a-zA-Z] and [:space:]
+
+# Hardcode for ASCII
+
+b1 = 96 # 96 is int for b'1100000'
+b2 = 31 # 31 is int for b'0011111'
 
 def decrypt():
     print("Please insert your encrypted message")
-    crypt=input()
+    crypt = input()
 
     print("Please insert your KEY")
-    key=input()
+    key = input()
 
-    ans=""
+    ans = ""
     for i in range(len(crypt)):
-        if crypt[i]==' ':
+        if crypt[i] == ' ':
             ans=ans+" "
         else:
-            if ord(crypt[i])>=ord('a'):
-                shift=ord(key[i])-ord('a')
-                if ord(crypt[i])<ord(key[i]):
-                    ans=ans+chr(ord(crypt[i])+26-shift)
-                else:
-                    ans=ans+chr(ord('a')+ord(crypt[i])-ord(key[i]))
-            else:
-                shift=ord(key[i])-ord('A')
-                if ord(crypt[i])<ord(key[i]):
-                    ans=ans+chr(ord(crypt[i])-shift+26)
-                else:
-                    ans=ans+chr(ord('A')+ord(crypt[i])-ord(key[i]))
+            ans = chr()
     print("Decrypted message:")
     print(ans)
 
 
 def encrypt():
     print("Please insert the message you wish you encrypt")
-    messg=input()
+    messg = [ord(x) for x in input()]
 
     print("Please insert your KEY")
-    key=input()
+    key = [ord(x) for x in input()]
 
-    ans=""
+    ans = ""
+    j = 0
     for i in range(len(messg)):
-        if messg[i]==' ':
-            ans=ans+" "
+        if messg[i] == ord(' '):
+            ans += " "
         else:
-            if ord(messg[i])>=ord('a'):
-                shift=ord(key[i])-ord('a')
-                if ord('z')-ord(messg[i])>shift:
-                    ans=ans+chr(ord(messg[i])+shift)
-                else:
-                    ans=ans+chr(ord(messg[i])+shift-26)
-            else:
-                shift=ord(key[i])-ord('A')
-                if ord('Z')-ord(messg[i])>shift:
-                    ans=ans+chr(ord(messg[i])+shift)
-                else:
-                    ans=ans+chr(ord(messg[i])+shift-26)
-
+            off = ((messg[i]&b2)+(key[j%len(key)]&b2)-1)%26
+            ans += chr(messg[i]&96|((messg[i]&b2)+(key[j%len(key)]&b2)-1)%26)
+            j += 1
 
     print("Encrypted message:")
     print(ans)
