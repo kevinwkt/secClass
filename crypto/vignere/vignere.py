@@ -7,19 +7,27 @@
 b1 = 96 # 96 is int for b'1100000'
 b2 = 31 # 31 is int for b'0011111'
 
+# Hardcode for special characters
+
+sp = set("!@#$%^&*()[]:;,<>./?~ 1234567890")
+
+print(sp)
+
 def decrypt():
     print("Please insert your encrypted message")
-    crypt = input()
+    crypt = [ord(x) for x in input()]
 
     print("Please insert your KEY")
-    key = input()
+    key = [ord(x) for x in input()]
 
     ans = ""
+    j = 0
     for i in range(len(crypt)):
-        if crypt[i] == ' ':
-            ans=ans+" "
+        if chr(crypt[i]) in sp:
+            ans += chr(crypt[i])
         else:
-            ans = chr()
+            ans += chr(crypt[i]&96|((crypt[i]&b2)-(key[j%len(key)]&b2)+27)%26)
+            j += 1
     print("Decrypted message:")
     print(ans)
 
@@ -34,10 +42,9 @@ def encrypt():
     ans = ""
     j = 0
     for i in range(len(messg)):
-        if messg[i] == ord(' '):
-            ans += " "
+        if chr(messg[i]) in sp:
+            ans += chr(messg[i])
         else:
-            off = ((messg[i]&b2)+(key[j%len(key)]&b2)-1)%26
             ans += chr(messg[i]&96|((messg[i]&b2)+(key[j%len(key)]&b2)-1)%26)
             j += 1
 
